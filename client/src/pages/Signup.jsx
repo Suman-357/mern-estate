@@ -34,7 +34,7 @@ const [loading, setloading] = useState();
        }
        setloading(false);
        seterror(null);
-       Navigate('/sign-in')
+       Navigate('/signin')
      } catch (error) {
       setloading(false);
       seterror(error.message);
