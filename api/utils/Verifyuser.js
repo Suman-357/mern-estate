@@ -6,9 +6,10 @@ export const verifytoken = (req,res,next) => {
 
     if (!token) return next(errorHandler(401,'unautherised'));
 
-    jwt.verify(token,process.env.JWT_SECRET,(err,user)=>{
-        if (err) return next(errorHandler(403,'forbiden'));
-        req.user = user;
+    jwt.verify(token,process.env.JWT_SECRET,(err,User)=>{
+        if (err) 
+            return next(errorHandler(403,'forbiden'));
+        req.User = User;
         next();
     });
 }
