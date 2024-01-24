@@ -2,16 +2,17 @@ import { useSelector } from "react-redux"
 import { useState, useEffect, useRef } from "react";
 import { getDownloadURL, getStorage, ref, uploadBytesResumable } from "firebase/storage"
 import { app } from "../firebase";
-import { updateuserstart, updateuserfailure, updateusersuccess } from "../redux/user/userSlice";
+import { updateuserstart, updateuserfailure, updateusersuccess, deleteuserfailure, deleteuserstart, deleteusersuccess } from "../redux/user/userSlice";
 import { useDispatch } from "react-redux";
 
 export default function Profile() {
-  const { currentUser } = useSelector(state => state.user)
+  const { currentUser, loading, error } = useSelector(state => state.user)
   const fileref = useRef(null);
   const [file, setfile] = useState(undefined);
   const [fileper, setfileperc] = useState(0)
   const [fileuploaderror, setfileuploaderror] = useState(false)
   const [formdata, setformdata] = useState({})
+  const [updatesuccess, setupdatesuccess] = useState(false)
   const dispatch = useDispatch();
 
   //firebase
@@ -64,13 +65,31 @@ export default function Profile() {
       })
       const data = await res.json();
       if (data.success === false) {
-       dispatch(updateuserfailure(data.message));
+        dispatch(updateuserfailure(data.message));
         return;
       }
-      dispatch(updateusersuccess(data))
+      dispatch(updateusersuccess(data));
+      setupdatesuccess(true);
     }
     catch (error) {
       dispatch(updateuserfailure(error.message));
+    }
+  }
+
+  const handeldeleteuser = async (e) => {
+    try {
+      dispatch(deleteuserstart());
+      const res = await fetch(`/api/user/delete/${currentUser._id}`, {
+        method: 'DELETE',
+      });
+      const data = await res.json();
+      if (data.success === false) {
+        dispatch(deleteuserfailure(data.message));
+        return;
+      }
+      dispatch(deleteusersuccess(data));
+    } catch (error) {
+      dispatch(deleteuserfailure(error.message))
     }
   }
 
@@ -90,12 +109,14 @@ export default function Profile() {
         <input className="border border-black p-3 rounded-lg" onChange={handelchange} type="text" placeholder="username" id="username" defaultValue={currentUser.username} />
         <input className="border border-black p-3 rounded-lg" onChange={handelchange} type="email" placeholder="email" id="email" defaultValue={currentUser.email} />
         <input className="border border-black p-3 rounded-lg" onChange={handelchange} type="password" placeholder="password" />
-        <button className="bg-slate-950 text-white rounded-lg p-3 hover:opacity-80 disabled:opacity-70 uppercase">update</button>
+        <button className="bg-slate-950 text-white rounded-lg p-3 hover:opacity-80 disabled:opacity-70 uppercase">{loading ? 'loading...' : 'update'}</button>
       </form>
       <div className="flex justify-between mt-5">
-        <span className="text-red-800 cursor-pointer">Delete account</span>
+        <span onClick={handeldeleteuser} className="text-red-800 cursor-pointer">Delete account</span>
         <span className="text-red-800 cursor-pointer">Sign out</span>
       </div>
+      <p className="text-red-700 mt-5">{error ? error : ''}</p>
+      <p className="text-green-700 mt-5">{updatesuccess ? 'user updated successfully!' : ''}</p>
     </div>
   )
 }
