@@ -57,14 +57,14 @@ const listingschema = new mongoose.Schema(
             required: true,
         },
 
-        imageurl:{
+        imageurls:{
             type: Array,
             required: true,
         },
 
         userRef:{
             type: String,
-            // required: true,
+            required: true,
         },
 
     }, {timestamps: true}

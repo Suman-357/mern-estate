@@ -1,20 +1,21 @@
+import { useSelector } from 'react-redux'
 import { getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/storage';
 import React from 'react'
 import { useState } from 'react'
-import { app } from '../firebase';
-import { useSelector } from 'react-redux';
+import { app } from '../firebase'
 import { useNavigate } from 'react-router-dom'
+
 
 export default function Createlisting() {
 
+    const { currentUser, error } = useSelector(state => state.user)
     const [files, setfiles] = useState([]);
     const navigate = useNavigate();
-    const currentUser = useSelector(state => state.user)
     const [formdata, setformdata] = useState({
         imageurls:[],
-        name:"",
-        description:"",
-        address:"",
+        name:'',
+        description:'',
+        address:'',
         regularprice:0,
         discountprice:0,
         bathroom:1,
@@ -23,7 +24,6 @@ export default function Createlisting() {
         parking: false,
         type:"rent",
         offer: false,
-        userRef:""
     })
     const [imageuploaderror, setimageuploaderror] = useState(false);
     const [uploading, setuploading] = useState(false);
@@ -118,7 +118,8 @@ export default function Createlisting() {
                 headers: {
                   'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({...formdata, userRef: currentUser._id}),
+                body: JSON.stringify({...formdata ,
+                     userRef: currentUser._id,}),
               });
               const data = await res.json();
               setloading(false);
@@ -207,7 +208,7 @@ export default function Createlisting() {
                     </div>
                 ))
             }
-            <button disabled={loading || uploading} className="bg-slate-700 text-white rounded-lg p-3 text-center hover:opacity-80 disabled:opacity-70 uppercase">{loading ? 'Creating...' : 'create listing'}</button>
+            <button onSubmit={handelsubmit} disabled={loading || uploading} className="bg-slate-700 text-white rounded-lg p-3 text-center hover:opacity-80 disabled:opacity-70 uppercase">{loading ? 'Creating...' : 'create listing'}</button>
             {Error && <p className='text-red-700 text-sm'>{Error}</p>}
             </div>
         </form>
