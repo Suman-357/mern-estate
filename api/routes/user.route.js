@@ -8,6 +8,6 @@ const router = express.Router();
 router.get('/test', test);
 router.post(`/update/:id`, verifytoken, upadateuser);
 router.delete(`/delete/:id`, verifytoken, deleteuser);
-router.get('/listings/:id', verifytoken, getuserlisting);
+router.get('/listing/:id', verifytoken, getuserlisting);
 
 export default router;

@@ -115,7 +115,7 @@ export default function Profile() {
   const handelshowlistings = async () => {
     try {
       setshowlistingserror(false)
-      const res = await fetch(`/api/user/listings/${currentUser._id}`);
+      const res = await fetch(`/api/user/listing/${currentUser._id}`);
       const data =  await res.json();
       if (data.success === false) {
         setshowlistingserror(true);
@@ -127,6 +127,23 @@ export default function Profile() {
       setshowlistingserror(true);
     }
   }
+
+ const handellistingdelete = async (listingId) =>
+ {
+  try {
+    const res = await fetch(`/api/listing/delete/${listingId}`,{
+      method: 'DELETE',
+    });
+    const data =  await res.json();
+      if (data.success === false) {
+        console.log(data.message);
+        return
+      }
+      setuserlisting((prev) => prev.filter((listing) => listing._id !== listingId));
+  } catch (error) {
+    console.log(error.message)
+  }
+ }
 
   return (
     <div className="p-3 max-w-lg mx-auto">
@@ -167,7 +184,7 @@ export default function Profile() {
               <p>{listing.name}</p>
             </Link>
             <div className="flex flex-col items-center">
-              <button className="text-red-700 cursor-pointer uppercase">Delete</button>
+              <button onClick={()=>handellistingdelete(listing._id)} className="text-red-700 cursor-pointer uppercase">Delete</button>
               <button className="text-green-700 cursor-pointer uppercase">Edit</button>
             </div>
           </div>
