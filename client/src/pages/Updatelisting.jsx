@@ -8,7 +8,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 
 export default function Createlisting() {
 
-    const { currentUser, error } = useSelector(state => state.user)
+    const { currentUser } = useSelector(state => state.user)
     const [files, setfiles] = useState([]);
     const params = useParams();
     const navigate = useNavigate();

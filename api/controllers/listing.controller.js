@@ -1,5 +1,6 @@
 import Listing from "../models/listing.model.js";
 import { errorHandler } from "../utils/error.js";
+import user from "../models/user.model.js";
 
 export const createlisting = async(req, res, next) => {
     try {
@@ -64,3 +65,4 @@ export const getlisting = async(req, res, next) => {
         next(error);
     }
 }
+

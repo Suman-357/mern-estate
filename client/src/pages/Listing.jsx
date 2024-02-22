@@ -6,15 +6,20 @@ import { Navigation } from 'swiper/modules';
 import 'swiper/css/bundle';
 import { FaBath, FaBed, FaChair, FaParking, FaShare } from "react-icons/fa";
 import { FaMapMarkerAlt } from "react-icons/fa";
+import { useSelector } from 'react-redux';
+import Contact from '../Components/Contact';
 
 export default function Listing() {
 
     const params = useParams();
     const [loading, setloading] = useState(true);
     const [listing, setlisting] = useState(null);
+    const [contact, setcontact] = useState(false);
     const [error, seterror] = useState(false);
     const [copied, setcopied] = useState(false);
-
+    const { currentUser } = useSelector(state => state.user)
+   
+console.log(currentUser._id , listing?.userRef)
     useEffect(() => {
         const fetchlisting = async () => {
             try {
@@ -37,6 +42,7 @@ export default function Listing() {
         }
         fetchlisting();
     }, [params.listingId])
+    
 
     return (
         <main>
@@ -113,6 +119,10 @@ export default function Listing() {
                                 {listing.furnished ? `Furnished` : `Unfurnished`}
                             </li>
                         </ul>
+                        { currentUser && listing.userRef !== currentUser._id && !contact && (
+                            <button onClick={()=>setcontact(true)} className='bg-slate-900 text-white rounded-lg font-semibold hover:opacity-80 items-center p-4'>Contact Landlord</button>
+                         )}
+                         {contact && <Contact listing={listing}/>}
                         </div>
                     </div>
                 )

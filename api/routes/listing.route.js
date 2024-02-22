@@ -11,4 +11,5 @@ router.delete('/delete/:id', verifytoken, deletelisting);
 router.post('/update/:id', verifytoken, updatelisting);
 router.get('/get/:id', getlisting);
 
+
 export default router;
