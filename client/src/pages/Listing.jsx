@@ -93,7 +93,7 @@ console.log(currentUser._id , listing?.userRef)
                                     {listing.type === 'sale' ? 'For sale' : 'For rent'}
                                 </p>
                                 {listing.offer && (
-                                    <button className='bg-green-800 w-full max-w-[200px] text-center text-white rounded-md p-2'>${+listing.regularprice - +listing.discountprice}</button>
+                                    <button className='bg-green-800 w-full max-w-[200px] text-center text-white rounded-md p-2'>${+listing.regularprice - +listing.discountprice} Discount</button>
                                 )
                                 }
                             </div>
