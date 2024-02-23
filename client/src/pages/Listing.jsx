@@ -15,6 +15,7 @@ export default function Listing() {
     const [loading, setloading] = useState(true);
     const [listing, setlisting] = useState(null);
     const [contact, setcontact] = useState(false);
+    
     const [error, seterror] = useState(false);
     const [copied, setcopied] = useState(false);
     const { currentUser } = useSelector(state => state.user)
@@ -123,6 +124,8 @@ console.log(currentUser._id , listing?.userRef)
                             <button onClick={()=>setcontact(true)} className='bg-slate-900 text-white rounded-lg font-semibold hover:opacity-80 items-center p-4'>Contact Landlord</button>
                          )}
                          {contact && <Contact listing={listing}/>}
+
+                         
                         </div>
                     </div>
                 )
