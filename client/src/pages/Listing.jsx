@@ -19,6 +19,7 @@ export default function Listing() {
     const [error, seterror] = useState(false);
     const [copied, setcopied] = useState(false);
     const { currentUser } = useSelector(state => state.user)
+    SwiperCore.use([Navigation])
    
 console.log(currentUser._id , listing?.userRef)
     useEffect(() => {
