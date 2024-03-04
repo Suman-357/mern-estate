@@ -37,7 +37,7 @@ export default function Home() {
       try {
         const res = await fetch(`/api/listing/get?type=sale&limit=4`);
         const data = await res.json();
-        setofferlisting(data);
+        setsalelisting(data);
       } catch (error) {
         console.log(error)
       }
@@ -66,11 +66,11 @@ export default function Home() {
 
 
       {/* swiper */}
-    <Swiper>
+    <Swiper navigation>
       {
         offerlisting && offerlisting.length >0 && offerlisting.map((listing) => (
           <SwiperSlide>
-            <div style={{background: `url(${listing.imageurl[0]}) center no-repeat`, backgroundSize: 'cover'}} key={listing._id} className="h-[500px]">
+            <div style={{background: `url(${listing.imageurls[0]}) center no-repeat`, backgroundSize: 'cover'}} key={listing._id} className="h-[500px]">
             </div>
           </SwiperSlide>
         ))
